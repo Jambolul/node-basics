@@ -5,10 +5,27 @@ const items = [
   { id: 19, name: "appelsiini" },
 ];
 
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ */
+
 const getItems = (req, res) => {
-  res.json(items);
+  const limit = req.query.limit;
+  // TODO: check that the param value is int before using
+  if (limit) {
+    res.json(items.slice(0, limit));
+  } else {
+    res.json(items);
+  }
 };
 
+/**
+ * Gets all items
+ * @param {object} req - http request
+ * @param {object} res - http response
+ */
 const getItemsById = (req, res) => {
   // TODO: if item with id exists send it, otherwise sen 404
   console.log("getItemsById", req.params.id);

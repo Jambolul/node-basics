@@ -2,10 +2,10 @@
 GET http://localhost:3000/
 
 ### GET /items
-GET http://localhost:3000/api/items
+GET http://localhost:3000/api/items?limit=1
 
 ### GET /items/:id
-GET http://localhost:3000/api/items/20
+GET http://localhost:3000/api/items/19
 
 ### POST /items
 POST http://localhost:3000/api/items
@@ -30,3 +30,67 @@ content-type: application/json
     "name": "kurkkukeitto"
     
     }
+
+
+// Media requests below
+//---------------------------------------------
+
+### GET all media items
+GET http://localhost:3000/api/media
+
+### GET one media item
+GET http://localhost:3000/api/media/9590
+
+### POST media item
+POST http://localhost:3000/api/media
+content-type: application/json
+
+{
+  "filename": "60ac.jpg",
+  "title": "New image",
+  "description": "The description of the new image",
+  "user_id": 305,
+  "media_type": "image/jpeg"
+}
+
+### Modify media item
+PUT http://localhost:3000/api/media/9590
+content-type: application/json
+
+{
+  "title": "Basement modified",
+  "description": "Some new description"
+}
+
+### Delete media item
+DELETE http://localhost:3000/api/media/9590
+
+### get all users
+GET http://localhost:3000/api/user
+
+### get one user
+GET http://localhost:3000/api/user/305
+
+### add a user
+POST http://localhost:3000/api/user
+content-type: application/json
+
+{
+    "username": "newuser",
+    "password": "newpassword",
+    "email": "testEmail"
+}
+
+### modify a user
+PUT http://localhost:3000/api/user/305
+content-type: application/json
+
+{
+    "username": "modified305username",
+    "password": "modified305password",
+    "email": "modified305mail"
+}
+
+### delete a user
+DELETE http://localhost:3000/api/user/305
+
