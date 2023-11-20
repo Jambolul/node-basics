@@ -40,7 +40,7 @@ CREATE TABLE Comments (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (media_id) REFERENCES MediaItems(media_id),
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
-);
+);  
 
 CREATE TABLE Likes (
     like_id INT AUTO_INCREMENT PRIMARY KEY,
