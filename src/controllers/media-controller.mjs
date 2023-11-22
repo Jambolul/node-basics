@@ -1,9 +1,9 @@
 import {
   addMedia,
-  deleteMediaById,
   fetchAllMedia,
   fetchMediaById,
   updateMediaById,
+  deleteMediaById,
 } from "../models/media-model.mjs";
 
 const getMedia = async (req, res) => {
@@ -29,8 +29,10 @@ const getMediaById = async (req, res) => {
 const postMedia = async (req, res) => {
   //console.log('uploaded file', req.file);
   //console.log('uploaded form data', req.body);
-  const { title, description, user_id } = req.body;
+  const { title, description } = req.body;
   const { filename, mimetype, size } = req.file;
+  // req.user is added by authenticateToken middleware
+  const user_id = req.user.user_id;
   if (filename && title && user_id) {
     // TODO: add error handling when database error occurs
     const newMedia = { title, description, user_id, filename, mimetype, size };
@@ -43,45 +45,35 @@ const postMedia = async (req, res) => {
 };
 
 const putMedia = async (req, res) => {
-  const { id } = req.params;
-  const { filename, title, description } = req.body;
+  try {
+    const mediaId = req.params.id;
+    const updateData = req.body;
 
-  if (id && title && filename) {
-    // TODO: add error handling when database error occurs
-    const updatedMedia = { filename, title, description };
-    const result = await updateMediaById(id, updatedMedia);
+    const result = await updateMediaById(mediaId, updateData);
 
-    if (result) {
-      if (result.error) {
-        res.status(500).json(result);
-      }
+    if (result.message) {
       res.json(result);
     } else {
-      res.status(404).json({ error: "Not Found", media_id: id });
+      res.status(404).json(result);
     }
-  } else {
-    res.sendStatus(400);
+  } catch (error) {
+    console.error("Error updating media:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
 const deleteMedia = async (req, res) => {
-  const { id } = req.params;
-
-  if (id) {
-    // TODO: add error handling when database error occurs
-    const result = await deleteMediaById(id);
-
-    if (result) {
-      if (result.error) {
-        res.status(500);
-      }
+  try {
+    const mediaId = req.params.id;
+    const result = await deleteMediaById(mediaId);
+    if (result.message) {
       res.json(result);
     } else {
-      res.status(404);
-      res.json({ error: "Not Found", media_id: id });
+      res.status(404).json(result);
     }
-  } else {
-    res.sendStatus(400);
+  } catch (error) {
+    console.error("Error deleting media:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 

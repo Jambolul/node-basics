@@ -16,8 +16,9 @@ const fetchAllMedia = async () => {
 const fetchMediaById = async (id) => {
   try {
     // TODO: replace * with specific column names needed in this case
-    const sql = `SELECT * FROM MediaItems JOIN Users
-                 ON MediaItems.user_id = Users.user_id WHERE media_id=?`;
+    const sql = `SELECT media_id, filename, filesize, media_type, title, description, MediaItems.created_at, Users.user_id, username
+                 FROM MediaItems JOIN Users ON MediaItems.user_id = Users.user_id
+                 WHERE media_id=?`;
     const params = [id];
     const [rows] = await promisePool.query(sql, params);
     console.log("rows", rows);

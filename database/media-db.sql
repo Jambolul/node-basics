@@ -40,7 +40,7 @@ CREATE TABLE Comments (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (media_id) REFERENCES MediaItems(media_id),
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
-);  
+);
 
 CREATE TABLE Likes (
     like_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -116,3 +116,20 @@ INSERT INTO MediaItemTags (media_id, tag_id) VALUES
 (2, 2),
 (3, 1),
 (2, 3);
+
+SELECT media_type, COUNT(media_type) AS count
+    FROM MediaItems
+    GROUP BY media_type
+    HAVING COUNT(media_type) > 1;
+
+SELECT media_type, MAX(filesize) AS max_size, MIN(filesize) AS min_size
+    FROM MediaItems
+    GROUP BY media_type;
+
+-- Select all media files tagged with 'Nature' using subqueries
+SELECT title, description, filename, media_id FROM MediaItems
+  WHERE media_id IN ( -- inner query result is a list of ids: 1, 3
+    SELECT media_id FROM MediaItemTags WHERE tag_id = (
+      SELECT tag_id FROM Tags WHERE tag_name = 'Nature'
+    )
+  );
