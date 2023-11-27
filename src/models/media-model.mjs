@@ -49,7 +49,6 @@ const addMedia = async (media) => {
     return { error: e.message };
   }
 };
-
 const updateMediaById = async (id, updatedMedia) => {
   const { filename, title, description } = updatedMedia;
   const sql = `UPDATE mediaItems SET filename=?, title=?, description=? WHERE media_id=?`;
@@ -65,24 +64,4 @@ const updateMediaById = async (id, updatedMedia) => {
   }
 };
 
-const deleteMediaById = async (id) => {
-  const sql = `DELETE FROM mediaItems WHERE media_id=?`;
-  const params = [id];
-  try {
-    const result = await promisePool.query(sql, params);
-    return result[0].affectedRows > 0
-      ? { message: "Media item deleted." }
-      : { error: "Not Found" };
-  } catch (e) {
-    console.error("error", e.message);
-    return { error: e.message };
-  }
-};
-
-export {
-  fetchAllMedia,
-  fetchMediaById,
-  addMedia,
-  updateMediaById,
-  deleteMediaById,
-};
+export { fetchAllMedia, fetchMediaById, addMedia, updateMediaById };
