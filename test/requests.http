@@ -93,7 +93,7 @@ DELETE http://localhost:3000/api/media/9590
 GET http://localhost:3000/api/users
 
 ### Get user by id
-GET http://localhost:3000/api/users/7
+GET http://localhost:3000/api/users/260
 
 ### Get user by id FAIL
 GET http://localhost:3000/api/users/959099
